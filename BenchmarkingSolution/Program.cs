@@ -27,7 +27,9 @@ namespace BenchmarkingSolution
                 new BenchmarkInformation
                 {BenchmarkType = typeof(BigCaptureAllocates), Description="Pass parameters instead of capturíng." },
                 new BenchmarkInformation
-                {BenchmarkType = typeof(StructShenanigans), Description="readonly etc" }
+                {BenchmarkType = typeof(StructShenanigans), Description="readonly etc" },
+                new BenchmarkInformation
+                {BenchmarkType = typeof(EnumAllocations), Description="Enum shit etc" }
             };
             for (var f = 0; f < infos.Length; f++)
                 Console.WriteLine($"{f}:{infos[f].Description}");
