@@ -6,6 +6,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <COMReference Include="WIA.dll">
+      <Guid>94a0e92d-43c0-494e-ac29-fd45948a5221</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+    </COMReference>
+    <COMReference Include="LocationApiLib.dll">
+      <Guid>4486df98-22a5-4f6b-bd5c-8cadcec0a6de</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.12.0" />
     <PackageReference Include="ErrorProne.NET.Structs" Version="0.2.0-beta.7">
       <PrivateAssets>all</PrivateAssets>
@@ -13,6 +32,12 @@
     </PackageReference>
     <PackageReference Include="Mono.Cecil" Version="0.11.1" />
     <PackageReference Include="ObjectLayoutInspector" Version="0.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="xamxml.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

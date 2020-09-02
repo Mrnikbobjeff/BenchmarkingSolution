@@ -1,11 +1,22 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace BenchmarkingSolution
 {
     public class AnalyzeAttribute : Attribute { }
+
+    public readonly struct LongStruct
+    {
+        public long A { get; }
+
+        public LongStruct(long a)
+        {
+            A = a;
+        }
+    }
 
     [AnalyzeAttribute]
     public struct EvilStruct
@@ -60,6 +71,7 @@ namespace BenchmarkingSolution
     {
         readonly GoodStruct gs = new GoodStruct();
         readonly EvilStruct es = new EvilStruct();
+        readonly static long[] samples = new long[16] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
         [Benchmark]
         public int AllocatesVirtualCalls()
         {
@@ -67,16 +79,48 @@ namespace BenchmarkingSolution
             return x.GetHashCode();
         }
 
+        [Benchmark]
+        public long AddingLongBaseline()
+        {
+            long accumulator = 0;
+            for(int i = 0; i < samples.Length; i++)
+            {
+                AddLongNoInline( accumulator ,samples[i]);
+            }
+            return accumulator;
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        long AddLongNoInline(long a, long b)
+        {
+            return a + b;
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        LongStruct AddStructNoInline(LongStruct a, long b)
+        {
+            return new LongStruct(a.A + b);
+        }
+
+        [Benchmark]
+        public LongStruct AddingLongStruct()
+        {
+            LongStruct accumulator = default;
+            for (int i = 0; i < samples.Length; i++)
+            {
+                accumulator = AddStructNoInline(accumulator, samples[i]);
+            }
+            return accumulator;
+        }
+
         public int GetHashCodeG<T>(T obj) where T : struct => obj.GetHashCode();
         [Analyze]
-        [Benchmark]
         public long DefensiveCopyOnHashcode()
         {
             return es.A;
         }
 
         [Analyze]
-        [Benchmark]
         public long NoDefensiveCopyOnHashcode()
         {
             return gs.A;

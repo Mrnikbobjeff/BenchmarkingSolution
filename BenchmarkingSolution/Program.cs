@@ -29,7 +29,11 @@ namespace BenchmarkingSolution
                 new BenchmarkInformation
                 {BenchmarkType = typeof(StructShenanigans), Description="readonly etc" },
                 new BenchmarkInformation
-                {BenchmarkType = typeof(EnumAllocations), Description="Enum shit etc" }
+                {BenchmarkType = typeof(EnumAllocations), Description="Enum shit etc" },
+                 new BenchmarkInformation
+                {BenchmarkType = typeof(PolicyStructCost), Description="Generic Allocation constrained" },
+                 new BenchmarkInformation
+                {BenchmarkType = typeof(StringBenchmarks), Description="String eq" }
             };
             for (var f = 0; f < infos.Length; f++)
                 Console.WriteLine($"{f}:{infos[f].Description}");
